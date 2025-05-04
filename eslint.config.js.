@@ -1,0 +1,33 @@
+import eslintRecommended from "eslint/conf/eslint-recommended.js";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
+import prettierConfig from "eslint-config-prettier";
+export default [
+  {
+    files: ["*.ts", "*.tsx"],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        project: "./tsconfig.json",
+        sourceType: "module",
+      },
+      globals: {
+        __dirname: "readonly",
+        process: "readonly",
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tsPlugin,
+    },
+    rules: {
+      ...eslintRecommended.rules,
+      ...tsPlugin.configs["eslint-recommended"].rules,
+      ...prettierConfig.rules,
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_" },
+      ],
+      "no-console": "off",
+    },
+  },
+];
